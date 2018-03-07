@@ -25,7 +25,7 @@ data Nat where
         Z   :: Nat
         Suc :: Nat -> Nat
 
-data Counter pre post (n :: Nat) a = Count { forget :: a }
+data Counter (pre :: l) (post :: l) (n :: Nat) a = Count { forget :: a }
 
 type family (n :: Nat) :+ (m :: Nat) where
         n :+ Z     = n
