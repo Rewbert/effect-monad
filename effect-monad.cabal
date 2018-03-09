@@ -41,7 +41,9 @@ library
   hs-source-dirs:       src
 
 
-  exposed-modules:      Control.CMonad
+  exposed-modules:      Control.Category.Counter
+                        Control.Category.Writer
+                        Control.CMonad
                         Control.Coeffect
                         Control.Coeffect.Coreader
                         Control.Effect
