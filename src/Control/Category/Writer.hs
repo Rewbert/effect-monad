@@ -77,7 +77,7 @@ varX = Var :: (Var "x")
 varY = Var :: (Var "y")
 
 -- | example
-prop :: Writer Z (Suc (Suc (Suc (Suc Z)))) '["x" :-> Int, "y" :-> String] ()
+prop :: Writer n (Suc (Suc (Suc (Suc n)))) '["x" :-> Int, "y" :-> String] ()
 prop =  put varX (42 :: Int) >>
         put varY "hello"     >>
         put varX (58 :: Int) >>
