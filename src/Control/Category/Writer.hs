@@ -61,8 +61,8 @@ instance (Monoid x, Supermap '[] s) => Supermap '[] ((k :-> x) ': s) where
 instance Supermap s t => Supermap ((k :-> v) ': s) ((k :-> v) ': t) where
     supermap (Ext k x xs) = Ext k x (supermap xs)
 
-prop :: Writer () () '["x" :-> Int] ()
-prop = do
-        put (Var :: (Var "x")) 42
-        --put (Var :: (Var "y")) "hello"
-        put (Var :: (Var "x")) 58
+-- There is a constraint that x -> k, k is a monoid! Int is not a monoid.
+prop :: Writer () () '["x" :-> [Int], "y" :-> String] ()
+prop =  put (Var :: (Var "x")) ([42] :: [Int]) >>
+        put (Var :: (Var "y")) "hello"     >>
+        put (Var :: (Var "x")) ([58] :: [Int])
