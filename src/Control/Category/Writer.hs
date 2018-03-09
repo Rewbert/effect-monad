@@ -11,7 +11,7 @@ import Data.Type.Map
 import Data.Monoid
 import GHC.TypeLits
 import Prelude hiding (Monad(..))
-import GHC.Exts ( Constraint )    
+import GHC.Exts ( Constraint )
 
 {-| Provides an effect-parameterised version of the writer monad. Effects
    are maps of variable-type pairs, providing an effect system for writer effects. -}
@@ -23,7 +23,9 @@ data Writer (pre  :: [Mapping Symbol NatNum])
         Writer { runWriter :: (a, Map w) }
 
 instance CMonad Writer where
-    type CInv Writer s t = (IsMap s, IsMap t, Unionable s t)
+    type CInv Writer pre int post s t =
+      (IsMap pre, IsMap int, IsMap post, IsMap s, IsMap t, Unionable s t)
+    type EmptyCond Writer = '[]
 
     {-| A trivial effect is the empty map -}
     type Identity Writer = '[]
@@ -76,10 +78,10 @@ instance Monoid Int where
 data NatNum where
         Z   :: NatNum
         Suc :: NatNum -> NatNum
-        
+
 type family (n :: NatNum) :+ (m :: NatNum) where
         n :+ Z     = n
-        n :+ (Suc m) = Suc (n :+ m)
+        n :+ Suc m = Suc (n :+ m)
 
 varX = Var :: (Var "x")
 varY = Var :: (Var "y")
@@ -87,7 +89,7 @@ varY = Var :: (Var "y")
 -- | example
 
 prop :: Writer '["x" :-> n, "y" :-> m]
-               '["x" :-> (Suc (Suc (Suc n))), "y" :-> (Suc (Suc m))]
+               '["x" :-> Suc (Suc (Suc n)), "y" :-> Suc (Suc m)]
                '["x" :-> Int, "y" :-> String]
                 ()
 prop =  put varX (42 :: Int) >>
@@ -98,8 +100,8 @@ prop =  put varX (42 :: Int) >>
 
 
 propSingle :: Writer '["x" :-> n]
-               '["x" :-> (Suc (Suc n))]
+               '["x" :-> Suc (Suc n)]
                '["x" :-> Int]
                 ()
 propSingle =  put varX (42 :: Int) >>
-              put varX (58 :: Int) 
+              put varX (58 :: Int)
