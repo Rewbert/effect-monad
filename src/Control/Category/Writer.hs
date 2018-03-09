@@ -15,7 +15,7 @@ import Prelude hiding (Monad(..))
 {-| Provides an effect-parameterised version of the writer monad. Effects
    are maps of variable-type pairs, providing an effect system for writer effects. -}
 
-data Writer (pre :: l) (post :: l) (w :: [Mapping Symbol *]) a =
+data Writer (pre :: NatNum) (post :: NatNum) (w :: [Mapping Symbol *]) a =
         Writer { runWriter :: (a, Map w) }
 
 instance CMonad Writer where
@@ -34,7 +34,7 @@ instance CMonad Writer where
                             in  Writer (b, w `union` w')
 
 {-| Write to variable 'v' with value of type 'a' -}
-put :: Var v -> a -> Writer () () '[v :-> a] ()
+put :: Var v -> a -> Writer (n) (Suc n) '[v :-> a] ()
 put v a = Writer ((), Ext v a Empty)
 
 -- Values of the same type can be combined
@@ -65,8 +65,16 @@ instance Monoid Int where
         mempty = 0
         mappend x y = x + y
 
+data NatNum where
+        Z   :: NatNum
+        Suc :: NatNum -> NatNum
+        
+type family (n :: NatNum) :+ (m :: NatNum) where
+        n :+ Z     = n
+        n :+ (Suc m) = Suc (n :+ m)
+
 -- There is a constraint that x -> k, k is a monoid! Int is not a monoid.
-prop :: Writer () () '["x" :-> Int, "y" :-> String] ()
+prop :: Writer Z (Suc (Suc (Suc Z))) '["x" :-> Int, "y" :-> String] ()
 prop =  put (Var :: (Var "x")) (42 :: Int) >>
         put (Var :: (Var "y")) "hello"     >>
         put (Var :: (Var "x")) (58 :: Int)
