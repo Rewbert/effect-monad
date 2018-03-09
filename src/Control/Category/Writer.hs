@@ -73,8 +73,12 @@ type family (n :: NatNum) :+ (m :: NatNum) where
         n :+ Z     = n
         n :+ (Suc m) = Suc (n :+ m)
 
--- There is a constraint that x -> k, k is a monoid! Int is not a monoid.
-prop :: Writer Z (Suc (Suc (Suc Z))) '["x" :-> Int, "y" :-> String] ()
-prop =  put (Var :: (Var "x")) (42 :: Int) >>
-        put (Var :: (Var "y")) "hello"     >>
-        put (Var :: (Var "x")) (58 :: Int)
+varX = Var :: (Var "x")
+varY = Var :: (Var "y")
+
+-- | example
+prop :: Writer Z (Suc (Suc (Suc (Suc Z)))) '["x" :-> Int, "y" :-> String] ()
+prop =  put varX (42 :: Int) >>
+        put varY "hello"     >>
+        put varX (58 :: Int) >>
+        put varY " world"
