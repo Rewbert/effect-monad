@@ -11,11 +11,15 @@ import Data.Type.Map
 import Data.Monoid
 import GHC.TypeLits
 import Prelude hiding (Monad(..))
+import GHC.Exts ( Constraint )    
 
 {-| Provides an effect-parameterised version of the writer monad. Effects
    are maps of variable-type pairs, providing an effect system for writer effects. -}
 
-data Writer (pre :: NatNum) (post :: NatNum) (w :: [Mapping Symbol *]) a =
+data Writer (pre  :: [Mapping Symbol NatNum])
+            (post :: [Mapping Symbol NatNum])
+            (w    :: [Mapping Symbol *])
+             a =
         Writer { runWriter :: (a, Map w) }
 
 instance CMonad Writer where
@@ -34,8 +38,12 @@ instance CMonad Writer where
                             in  Writer (b, w `union` w')
 
 {-| Write to variable 'v' with value of type 'a' -}
-put :: Var v -> a -> Writer (n) (Suc n) '[v :-> a] ()
+put :: Var v -> a -> Writer pre (Inc v pre) '[v :-> a] ()
 put v a = Writer ((), Ext v a Empty)
+
+type family Inc (k :: a) (m :: [Mapping a v]) :: [Mapping a v] where
+        Inc k ((k :-> v) ': xs) = (k :-> (Suc v)) ': xs
+        Inc k (x ': xs)         = x ': (Inc k xs)
 
 -- Values of the same type can be combined
 type instance Combine v v = v
@@ -77,8 +85,21 @@ varX = Var :: (Var "x")
 varY = Var :: (Var "y")
 
 -- | example
-prop :: Writer n (Suc (Suc (Suc (Suc n)))) '["x" :-> Int, "y" :-> String] ()
+
+prop :: Writer '["x" :-> n, "y" :-> m]
+               '["x" :-> (Suc (Suc (Suc n))), "y" :-> (Suc (Suc m))]
+               '["x" :-> Int, "y" :-> String]
+                ()
 prop =  put varX (42 :: Int) >>
         put varY "hello"     >>
         put varX (58 :: Int) >>
+        put varX (58 :: Int) >>
         put varY " world"
+
+
+propSingle :: Writer '["x" :-> n]
+               '["x" :-> (Suc (Suc n))]
+               '["x" :-> Int]
+                ()
+propSingle =  put varX (42 :: Int) >>
+              put varX (58 :: Int) 
