@@ -42,6 +42,8 @@ library
 
 
   exposed-modules:      Control.Category.Counter
+                        Control.Category.Effect
+                        Control.Category.Monad
                         Control.Category.Writer
                         Control.CMonad
                         Control.Coeffect

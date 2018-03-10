@@ -4,7 +4,6 @@ module Control.CMonad where
 
 import Prelude hiding (Monad(..))
 import GHC.Exts ( Constraint )
-import qualified Control.Effect as E
 
 {-| Specified our monad, which is a parameterised annotated effect monad.
     It is built upon the basic monad but with type-level invariants and
@@ -31,24 +30,3 @@ class CMonad (m :: l -> l -> k -> * -> *) where
 -- | Specifies subeffecting behaviour
 class Subeffect (m :: l -> l -> k -> * -> *) f g where
   sub :: m pre post f a -> m pre post g a
-
--- | Automatic converion of Effect-monads into CMonads
-data Effect m pre post k a where
-  Wrap :: (E.Effect m)
-       => m (e :: k) a -> Effect m () () (e :: k) a
-
-{- | Run function for the Effect CMonads, results in the respective effect
-     computation -}
-unWrap :: (E.Effect m)
-       => Effect m () () e a -> m e a
-unWrap (Wrap m) = m
-
-instance E.Effect m => CMonad (Effect m)
-  where
-    type CInv (Effect m) pre int post f g =
-      (pre ~ (), int ~ (), post ~ (), E.Inv m f g)
-    type Identity (Effect m) = E.Unit m
-    type EmptyCond (Effect m) = ()
-    type Comp (Effect m) s t = E.Plus m s t
-    return x = Wrap (E.return x)
-    (Wrap x) >>= f = Wrap $ x E.>>= \y -> unWrap (f y)
