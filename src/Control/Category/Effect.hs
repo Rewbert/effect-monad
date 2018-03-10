@@ -1,5 +1,7 @@
 {-# LANGUAGE KindSignatures, DataKinds, TypeOperators, GADTs, TypeFamilies, ConstraintKinds, PolyKinds, MultiParamTypeClasses, InstanceSigs #-}
 
+{-| Module containing a CMonad wrapper for Effect Monads.-}
+
 module Control.Category.Effect where
 
 import Prelude hiding (Monad(..))

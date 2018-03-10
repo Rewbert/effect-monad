@@ -1,5 +1,7 @@
 {-# LANGUAGE DataKinds, TypeOperators, GADTs, TypeFamilies, ConstraintKinds, PolyKinds, MultiParamTypeClasses, InstanceSigs #-}
 
+{-| Module containing a CMonad wrapper for Monads.-}
+
 module Control.Category.Monad where
 
 import Prelude hiding (Monad(..))
@@ -7,9 +9,11 @@ import GHC.Exts ( Constraint )
 import Control.CMonad
 import qualified Prelude as M (Monad(..))
 
+-- | Wrapepr for regular Monads
 data Monad m pre post k a where
   Wrap :: (M.Monad m) => m a -> Monad m () () () a
 
+-- | Unwraps a monad
 unWrap :: (M.Monad m) => Monad m pre post k a -> m a
 unWrap (Wrap m) = m
 
