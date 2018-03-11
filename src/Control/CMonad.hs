@@ -1,5 +1,5 @@
-{-# LANGUAGE KindSignatures, DataKinds, TypeOperators, GADTs, TypeFamilies,
-             ConstraintKinds, PolyKinds, MultiParamTypeClasses, InstanceSigs #-}
+{-# LANGUAGE DataKinds, GADTs, TypeFamilies, ConstraintKinds, PolyKinds,
+             MultiParamTypeClasses #-}
 
 {- | The CMonad package! -}
 module Control.CMonad where

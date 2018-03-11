@@ -1,4 +1,5 @@
-{-# LANGUAGE KindSignatures, DataKinds, TypeOperators, GADTs, TypeFamilies, ConstraintKinds, PolyKinds, MultiParamTypeClasses, InstanceSigs #-}
+{-# LANGUAGE DataKinds,  GADTs, TypeFamilies, ConstraintKinds,
+             MultiParamTypeClasses#-}
 
 {-| Module containing a CMonad wrapper for Effect Monads.-}
 

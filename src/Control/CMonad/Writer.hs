@@ -1,6 +1,6 @@
-{-# LANGUAGE GADTs, DataKinds, KindSignatures, TypeOperators, TypeFamilies,
+{-# LANGUAGE GADTs, DataKinds, TypeOperators, TypeFamilies,
              MultiParamTypeClasses, FlexibleInstances, UndecidableInstances,
-             ScopedTypeVariables, PolyKinds, FlexibleContexts #-}
+             ScopedTypeVariables, PolyKinds #-}
 
 module Control.CMonad.Writer(Writer(..), Symbol, put, Mapping(..),
                              IsMap, Map(..), union, Var(..),

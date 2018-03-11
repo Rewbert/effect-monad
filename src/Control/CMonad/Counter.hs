@@ -1,4 +1,5 @@
-{-# LANGUAGE KindSignatures, DataKinds, TypeOperators, GADTs, TypeFamilies, ConstraintKinds, PolyKinds, MultiParamTypeClasses #-}
+{-# LANGUAGE DataKinds, TypeOperators, GADTs, TypeFamilies, ConstraintKinds,
+             MultiParamTypeClasses #-}
 
 {-| Provides a way to 'count' in the type-level with a monadic interface
     to sum up the individual counts of subcomputations -}
