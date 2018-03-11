@@ -2,7 +2,7 @@
 
 {-| Module containing a CMonad wrapper for Monads.-}
 
-module Control.Category.Monad where
+module Control.CMonad.Monad where
 
 import Prelude hiding (Monad(..))
 import GHC.Exts ( Constraint )

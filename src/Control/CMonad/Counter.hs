@@ -3,7 +3,7 @@
 {-| Provides a way to 'count' in the type-level with a monadic interface
     to sum up the individual counts of subcomputations -}
 
-module Control.Category.Counter where
+module Control.CMonad.Counter where
 
 import Control.CMonad
 import Prelude hiding (Monad(..))

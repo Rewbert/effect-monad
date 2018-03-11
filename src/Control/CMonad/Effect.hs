@@ -2,7 +2,7 @@
 
 {-| Module containing a CMonad wrapper for Effect Monads.-}
 
-module Control.Category.Effect where
+module Control.CMonad.Effect where
 
 import Prelude hiding (Monad(..))
 import GHC.Exts ( Constraint )

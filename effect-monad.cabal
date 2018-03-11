@@ -41,11 +41,11 @@ library
   hs-source-dirs:       src
 
 
-  exposed-modules:      Control.Category.Counter
-                        Control.Category.Effect
-                        Control.Category.Monad
-                        Control.Category.Writer
-                        Control.CMonad
+  exposed-modules:      Control.CMonad
+                        Control.CMonad.Counter
+                        Control.CMonad.Effect
+                        Control.CMonad.Monad
+                        Control.CMonad.Writer
                         Control.Coeffect
                         Control.Coeffect.Coreader
                         Control.Effect

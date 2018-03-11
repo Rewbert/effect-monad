@@ -2,7 +2,7 @@
              MultiParamTypeClasses, FlexibleInstances, UndecidableInstances,
              ScopedTypeVariables, PolyKinds, FlexibleContexts #-}
 
-module Control.Category.Writer(Writer(..), Symbol, put, Mapping(..),
+module Control.CMonad.Writer(Writer(..), Symbol, put, Mapping(..),
                              IsMap, Map(..), union, Var(..),
                              Union, Unionable) where
 
