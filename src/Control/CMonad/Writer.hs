@@ -79,10 +79,6 @@ data NatNum where
         Z   :: NatNum
         Suc :: NatNum -> NatNum
 
-type family (n :: NatNum) :+ (m :: NatNum) where
-        n :+ Z     = n
-        n :+ Suc m = Suc (n :+ m)
-
 varX = Var :: (Var "x")
 varY = Var :: (Var "y")
 
