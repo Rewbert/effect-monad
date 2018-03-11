@@ -81,6 +81,7 @@ data NatNum where
 
 varX = Var :: (Var "x")
 varY = Var :: (Var "y")
+varZ = Var :: (Var "z")
 
 -- | example
 
@@ -94,6 +95,16 @@ prop =  put varX (42 :: Int) >>
         put varX (58 :: Int) >>
         put varY " world"
 
+propMul :: Writer '["x" :-> n, "y" :-> m, "z" :-> k]
+                  '["x" :-> Suc (Suc (Suc n)), "y" :-> Suc (Suc m), "z" :-> Suc k]
+                  '["x" :-> Int, "y" :-> String, "z" :-> Int]
+                   ()
+propMul =  put varX (42 :: Int) >>
+           put varY "hello"     >>
+           put varX (58 :: Int) >>
+           put varZ (42 :: Int) >>
+           put varX (58 :: Int) >>
+           put varY " world"
 
 propSingle :: Writer '["x" :-> n]
                '["x" :-> Suc (Suc n)]
