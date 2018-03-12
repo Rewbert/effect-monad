@@ -2,6 +2,7 @@
              MultiParamTypeClasses, FlexibleInstances, UndecidableInstances,
              ScopedTypeVariables, PolyKinds #-}
 
+{-| CMonad version of the standard Writer monad -}
 module Control.CMonad.Writer(Writer(..), Symbol, put, Mapping(..),
                              IsMap, Map(..), union, Var(..),
                              Union, Unionable) where
@@ -13,9 +14,9 @@ import GHC.TypeLits
 import Prelude hiding (Monad(..))
 import GHC.Exts ( Constraint )
 
-{-| Provides an effect-parameterised version of the writer monad. Effects
-   are maps of variable-type pairs, providing an effect system for writer effects. -}
-
+{-| Provides an CMonad version of the writer monad. The invariant is given in
+    maps of variable-length pairs, and effects are maps of variable-type pairs,
+    providing an effect system for writer effects. -}
 data Writer (pre  :: [Mapping Symbol NatNum])
             (post :: [Mapping Symbol NatNum])
             (w    :: [Mapping Symbol *])
@@ -84,7 +85,6 @@ varY = Var :: (Var "y")
 varZ = Var :: (Var "z")
 
 -- | example
-
 prop :: Writer '["x" :-> n, "y" :-> m]
                '["x" :-> Suc (Suc (Suc n)), "y" :-> Suc (Suc m)]
                '["x" :-> Int, "y" :-> String]
