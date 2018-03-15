@@ -1,5 +1,5 @@
 {-# LANGUAGE DataKinds,  GADTs, TypeFamilies, ConstraintKinds,
-             MultiParamTypeClasses#-}
+             MultiParamTypeClasses, PolyKinds #-}
 
 {-| Module containing a CMonad wrapper for Effect Monads.-}
 
