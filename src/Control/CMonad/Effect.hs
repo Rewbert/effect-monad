@@ -26,7 +26,7 @@ instance E.Effect m => CMonad (Effect m)
     type CInv (Effect m) pre int post f g =
       (pre ~ (), int ~ (), post ~ (), E.Inv m f g)
     type Identity (Effect m) = E.Unit m
-    type EmptyCond (Effect m) = ()
+    type EmptyCond (Effect m) c = c ~ ()
     type Comp (Effect m) s t = E.Plus m s t
     return x = Wrap (E.return x)
     (Wrap x) >>= f = Wrap $ x E.>>= (unWrap . f)

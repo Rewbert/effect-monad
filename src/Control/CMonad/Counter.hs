@@ -28,7 +28,7 @@ instance Show a => Show (Counter i j k a) where
 instance CMonad Counter where
   type CInv Counter pre int post f g = (pre ~ (), int ~ (), post ~ ())
   type Identity Counter = Z
-  type EmptyCond Counter = ()
+  type EmptyCond Counter  c = c ~ ()
   type Comp Counter n m = n :+ m
 
   -- On the value level we just 'work' with the a

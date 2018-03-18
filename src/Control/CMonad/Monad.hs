@@ -21,8 +21,8 @@ unWrap (Wrap m) = m
 instance (M.Monad m) => CMonad (Monad m) where
   type CInv (Monad m) pre int post f g =
     (pre ~ (), int ~ (), post ~ (), f ~ (), g ~ ())
-  type Identity (Monad m)  = ()
-  type EmptyCond (Monad m) = ()
-  type Comp (Monad m) s t  = ()
+  type Identity (Monad m)    = ()
+  type EmptyCond (Monad m) c = c ~ ()
+  type Comp (Monad m) s t    = ()
   return x = Wrap (M.return x)
   (Wrap x) >>= f = Wrap $ x M.>>= (unWrap . f)

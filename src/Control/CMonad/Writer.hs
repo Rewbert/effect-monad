@@ -26,7 +26,7 @@ data Writer (pre  :: [Mapping Symbol NatNum])
 instance CMonad Writer where
     type CInv Writer pre int post s t =
       (IsMap pre, IsMap int, IsMap post, IsMap s, IsMap t, Unionable s t)
-    type EmptyCond Writer = '[]
+    type EmptyCond Writer c = IsMap c
 
     {-| A trivial effect is the empty map -}
     type Identity Writer = '[]
@@ -104,6 +104,7 @@ propMul =  put varX (42 :: Int) >>
            put varX (58 :: Int) >>
            put varZ (42 :: Int) >>
            put varX (58 :: Int) >>
+           return ()            >>
            put varY " world"
 
 propSingle :: Writer '["x" :-> n]

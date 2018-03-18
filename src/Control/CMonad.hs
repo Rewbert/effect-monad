@@ -16,7 +16,8 @@ class CMonad (m :: l -> l -> k -> * -> *) where
   type Identity m :: k
 
   -- | The pre and post conditions for a return
-  type EmptyCond m :: l
+  type EmptyCond m  (c :: l) :: Constraint
+  type EmptyCond m  c = ()
 
   -- | Composing the effects of two subcomputations
   type Comp m (f :: k) (g :: k) :: k
@@ -27,7 +28,7 @@ class CMonad (m :: l -> l -> k -> * -> *) where
 
   {- | CMonad version of 'return'. Require 'EmptyCond' as both pre-condition
        and post-condition. Annotated by the 'Identity' effect. -}
-  return :: a -> m (EmptyCond m) (EmptyCond m) (Identity m) a
+  return :: (EmptyCond m) c => a -> m c c (Identity m) a
 
   {-| CMonad version of '>>=' (bind). The invariant of the resulting
       computation will have the same pre condition as the first subcomputation
